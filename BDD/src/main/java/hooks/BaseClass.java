@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import pages.LoginPage;
+import pages.RecycleBinPage;
 
 public class BaseClass {
 	public static WebDriver driver;
@@ -18,20 +20,17 @@ public void openBrowser() {
 	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 	driver.get("http://192.168.61.129:8080/crm/ShowHomePage.do");
 	System.out.println("openBrowser");
-}
-	@Before(order=1)
+}	@Before(order=1)
 public void login() {
-	driver.findElement(By.id("userName")).sendKeys("rashmi@dell.com");
-	driver.findElement(By.id("passWord")).sendKeys("123456");
-	driver.findElement(By.xpath("//input[@title='Sign In']")).click();
+	LoginPage l=new LoginPage(driver);
+	l.login("rashmi@dell.com", "123456");
 	System.out.println("login");
-}
-	@After(order=1)
+}	@After(order=1)
 public void logout() {
-	driver.findElement(By.partialLinkText("Logout")).click();
+	RecycleBinPage r=new RecycleBinPage(driver);
+	r.setLogout();
 	System.out.println("logout");
-}
-	@After(order=0)
+}	@After(order=0)
 public void closeBrowser() {
 	driver.quit();
 	System.out.println("closeBrowser");
